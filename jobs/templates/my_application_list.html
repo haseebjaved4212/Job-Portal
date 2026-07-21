@@ -1,12 +1,40 @@
 {% extends "base.html" %}
 {% block title %}My Applications{% endblock %}
 {% block content %}
-<h1>My Applications</h1>
-<ul>
-{% for application in applications %}
-    <li>{{ application.job.title }} at {{ application.job.company }} — applied {{ application.applied_date|date:"F d, Y" }}</li>
-{% empty %}
-    <li>You haven't applied to any jobs yet.</li>
-{% endfor %}
-</ul>
+<div style="margin-bottom: 2rem;">
+    <h1>My Applications</h1>
+    <p style="color: var(--text-muted);">Track the status of jobs you've applied for.</p>
+</div>
+
+{% if applications %}
+<div class="card" style="padding: 0;">
+    <table class="modern-table">
+        <thead>
+            <tr>
+                <th>Job Title</th>
+                <th>Company</th>
+                <th>Date Applied</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for application in applications %}
+            <tr>
+                <td style="font-weight: 600;">{{ application.job.title }}</td>
+                <td>{{ application.job.company }}</td>
+                <td>{{ application.applied_date|date:"F d, Y" }}</td>
+                <td>
+                    <a href="{% url 'job-detail' application.job.pk %}" class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">View Job</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="card" style="text-align: center; padding: 4rem;">
+    <h3 style="color: var(--text-muted);">You haven't applied to any jobs yet.</h3>
+    <a href="{% url 'job-list' %}" class="btn btn-primary" style="margin-top: 1rem;">Browse Jobs</a>
+</div>
+{% endif %}
 {% endblock %}

@@ -1,33 +1,41 @@
 {% extends "base.html" %}
 {% block title %}{{ object.title }}{% endblock %}
 {% block content %}
-<div class="card">
-    <h1>{{ object.title }}</h1>
-    <p><strong>Company:</strong> {{ object.company }}</p>
-    <p><strong>Location:</strong> {{ object.location }}</p>
-    <p><strong>Salary:</strong> ${{ object.salary }}</p>
-    <p><strong>Posted:</strong> {{ object.posted_date|date:"F d, Y" }}</p>
-    
-    <hr>
-    <h3>Description</h3>
-    <p>{{ object.description|linebreaks }}</p>
-    
-    {% if user.is_authenticated %}
-        {% if user != object.posted_by %}
-            {% if already_applied %}
-                <button disabled style="background-color: #6c757d;">Already Applied</button>
+<div class="card hero-card" style="margin-top: 2rem;">
+    <div class="hero-header">
+        <div>
+            <h1 class="hero-title">{{ object.title }}</h1>
+            <p style="font-size: 1.25rem; color: var(--text-muted);">{{ object.company }}</p>
+            <div class="job-meta" style="margin-top: 1rem;">
+                <span class="badge badge-primary">📍 {{ object.location }}</span>
+                <span class="badge badge-success">💵 ${{ object.salary }}</span>
+                <span class="badge badge-secondary">📅 {{ object.posted_date|date:"M d, Y" }}</span>
+            </div>
+        </div>
+        
+        <div>
+            {% if user.is_authenticated %}
+                {% if user != object.posted_by %}
+                    {% if already_applied %}
+                        <button class="btn btn-outline" disabled style="min-width: 150px;">Already Applied</button>
+                    {% else %}
+                        <form action="{% url 'apply-to-job' object.pk %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary" style="min-width: 150px; padding: 1rem;">Apply Now</button>
+                        </form>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'job-update' object.pk %}" class="btn btn-outline">Edit Job</a>
+                {% endif %}
             {% else %}
-                <form action="{% url 'apply-to-job' object.pk %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Apply Now</button>
-                </form>
+                <a href="{% url 'login' %}" class="btn btn-primary">Log in to Apply</a>
             {% endif %}
-        {% else %}
-            <p><em>You posted this job.</em></p>
-            <a href="{% url 'job-update' object.pk %}"><button>Edit Job</button></a>
-        {% endif %}
-    {% else %}
-        <p><a href="{% url 'login' %}">Log in</a> to apply for this job.</p>
-    {% endif %}
+        </div>
+    </div>
+    
+    <div style="font-size: 1.1rem; line-height: 1.8; color: var(--text-main);">
+        <h3 style="margin-bottom: 1rem;">Job Description</h3>
+        {{ object.description|linebreaks }}
+    </div>
 </div>
 {% endblock %}

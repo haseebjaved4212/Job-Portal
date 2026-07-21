@@ -1,16 +1,32 @@
 {% extends "base.html" %}
 {% block title %}My Posted Jobs{% endblock %}
 {% block content %}
-<h1>My Posted Jobs</h1>
-<ul>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h1>My Posted Jobs</h1>
+    <a href="{% url 'job-create' %}" class="btn btn-primary">Post a New Job</a>
+</div>
+
+<div class="job-grid">
 {% for job in jobs %}
-    <li>
-        <a href="{% url 'job-detail' job.pk %}">{{ job.title }}</a>
-        - <a href="{% url 'job-update' job.pk %}">Edit</a>
-        - <a href="{% url 'job-delete' job.pk %}">Delete</a>
-    </li>
+    <div class="card job-card">
+        <div class="job-card-body">
+            <h3 class="job-card-title">{{ job.title }}</h3>
+            <div class="job-card-company">{{ job.company }}</div>
+            <div class="job-meta">
+                <span class="badge badge-primary">📍 {{ job.location }}</span>
+                <span class="badge badge-success">💵 ${{ job.salary }}</span>
+            </div>
+        </div>
+        <div style="margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem; display: flex; gap: 0.5rem;">
+            <a href="{% url 'job-detail' job.pk %}" class="btn btn-outline" style="flex: 1; padding: 0.5rem; font-size: 0.875rem;">View</a>
+            <a href="{% url 'job-update' job.pk %}" class="btn btn-primary" style="flex: 1; padding: 0.5rem; font-size: 0.875rem;">Edit</a>
+            <a href="{% url 'job-delete' job.pk %}" class="btn btn-danger" style="flex: 1; padding: 0.5rem; font-size: 0.875rem;">Delete</a>
+        </div>
+    </div>
 {% empty %}
-    <li>You haven't posted any jobs yet.</li>
+    <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 4rem;">
+        <h3 style="color: var(--text-muted);">You haven't posted any jobs yet.</h3>
+    </div>
 {% endfor %}
-</ul>
+</div>
 {% endblock %}
