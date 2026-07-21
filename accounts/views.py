@@ -6,7 +6,7 @@ def signup(request):
         form = CustomCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/accounts/templates/login.html')
+            return redirect('login')
     else:
         form = CustomCreationForm()
-    return render(request, 'accounts/templates/signup.html', {'form': form})
+    return render(request, 'signup.html', {'form': form})

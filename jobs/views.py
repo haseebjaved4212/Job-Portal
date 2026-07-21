@@ -5,16 +5,16 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse, reverse_lazy
 from .models import Job, Application
-from .forms import Jobform
+from .forms import JobForm
 
 class JobListView(ListView):
     model = Job
-    template_name = 'jobs/templates/job_list.html'
+    template_name = 'job_list.html'
     context_object_name = 'all_jobs'
 
 class JobDetailView(DetailView):
     model = Job
-    template_name = 'jobs/templates/job_detail.html'
+    template_name = 'job_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -26,7 +26,7 @@ class JobDetailView(DetailView):
 
 class JobCreateView(LoginRequiredMixin, CreateView):
     model = Job
-    form_class = Jobform
+    form_class = JobForm
     template_name = 'job_form.html'
 
     def form_valid(self, form):
@@ -38,7 +38,7 @@ class JobCreateView(LoginRequiredMixin, CreateView):
 
 class JobUpdateView(LoginRequiredMixin, UpdateView):
     model = Job
-    form_class = Jobform
+    form_class = JobForm
     template_name = 'job_form.html'
 
     def get_queryset(self):
@@ -57,7 +57,7 @@ class JobDeleteView(LoginRequiredMixin, DeleteView):
 
 class MyJobsListView(LoginRequiredMixin, ListView):
     model = Job
-    template_name = 'my_jobs_list.html'
+    template_name = 'my_job_list.html'
     context_object_name = 'jobs'
 
     def get_queryset(self):
@@ -77,7 +77,7 @@ def apply_to_job(request, pk):
 
 class MyApplicationsListView(LoginRequiredMixin, ListView):
     model = Application
-    template_name = 'my_applications_list.html'
+    template_name = 'my_application_list.html'
     context_object_name = 'applications'
 
     def get_queryset(self):

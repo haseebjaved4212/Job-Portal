@@ -7,7 +7,7 @@
 {% for job in all_jobs %}
     <li>
         <a href="{% url 'job-detail' job.pk %}">{{ job.title }}</a>
-        — {{ job.company_name }} — {{ job.location }} — ${{ job.salary }}
+        — {{ job.company }} — {{ job.location }} — ${{ job.salary }}
     </li>
 {% empty %}
     <li>No jobs posted yet.</li>
