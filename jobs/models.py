@@ -30,10 +30,10 @@ class application(models.Model):
     cover_letter = models.TextField(blank=True)
 
     class Meta:
-        ordering = ['-applied_date']
+        unique_together = ('job', 'applicant')
 
     def __str__(self):
-        return f"{self.applicant.username} - {self.job.title}"
+        return f"{self.applicant.username} applied for {self.job.title}"
 
 
 
