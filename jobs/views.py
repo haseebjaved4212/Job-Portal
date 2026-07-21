@@ -9,12 +9,12 @@ from .forms import Jobform
 
 class JobListView(ListView):
     model = Job
-    template_name = 'job_list.html'
+    template_name = 'jobs/templates/job_list.html'
     context_object_name = 'all_jobs'
 
 class JobDetailView(DetailView):
     model = Job
-    template_name = 'job_detail.html'
+    template_name = 'jobs/templates/job_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
