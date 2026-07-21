@@ -33,4 +33,13 @@ class application(models.Model):
         ordering = ['-applied_date']
 
     def __str__(self):
-        return self.job.title
+        return f"{self.applicant.username} - {self.job.title}"
+
+
+
+
+
+    
+
+
+    
