@@ -22,7 +22,7 @@ class Job(models.Model):
          return self.title
 
 
-class application(models.Model):
+class Application(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     applicant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     applied_date = models.DateTimeField(auto_now_add=True)
